@@ -1,0 +1,39 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jul 25 15:43:12 2021
+
+@author: chenj
+"""
+
+import numpy as np
+import os
+
+os.chdir("D:/Document/科研/di/simulation/4Gdataset/dataset_ori")
+
+TARGET_DURATION = 100*1e6 # unit: microseconds
+# MIN_THROUGHPUT = 2.5*1e6 # unit: bytes per second 
+MIN_THROUGHPUT = 4 * 1e6 # unit: bytes per second for 4k  32Mbps
+MAX_THROUGHPUT = 12.5*1e6 # unit: bytes per second        100Mbps
+
+filenames = os.listdir("./")
+filenames = [filename for filename in filenames if 'report' in filename]
+
+output_dire = './dataset_4k/'
+if not os.path.exists(output_dire):
+    os.makedirs(output_dire)
+for filename in filenames:
+    with open(filename) as f:
+        line = f.readline()
+        total_duration = 0
+        with open(output_dire+filename,'w') as w:
+            while line:
+                tokens = line.split(' ')
+                duration = int(tokens[5]) # unit: ms
+                throughput = int(tokens[4])*1000/int(tokens[5])
+                if throughput > MIN_THROUGHPUT and throughput < MAX_THROUGHPUT:
+                    w.write("%d %d\n"%(duration*1000,throughput))
+                    total_duration += duration
+                line = f.readline()
+        if total_duration * 1000 < TARGET_DURATION:
+            os.remove(output_dire+filename)
+                    

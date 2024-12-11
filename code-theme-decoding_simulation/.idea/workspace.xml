@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="599826a5-71c9-4cc5-8a1c-f1993e8cef5c" name="更改" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2os8Y8RYf474WSCw9kvA5HiuAl4" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.QoE.executor": "Run",
+    "Python.Quality.executor": "Run",
+    "Python.config.executor": "Run",
+    "Python.delay.executor": "Run",
+    "Python.env.executor": "Run",
+    "Python.env_decoding.executor": "Run",
+    "Python.env_lightweight.executor": "Run",
+    "Python.env_produce.executor": "Run",
+    "Python.env_weight.executor": "Run",
+    "Python.laqa_QoE.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.outlier.executor": "Run",
+    "Python.plot-golay.executor": "Run",
+    "Python.plt-stepreward.executor": "Run",
+    "Python.read_metric_file.executor": "Run",
+    "Python.stepreward.executor": "Run",
+    "Python.var.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "E:/lyq/02-myWork/1.decoding/codes/code-theme-decoding_simulation/draw/cdf/laqa",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\lyq\02-myWork\1.decoding\codes\code-theme-decoding_simulation\draw\cdf\laqa" />
+      <recent name="E:\lyq\02-myWork\1.decoding\codes\code-theme-decoding_simulation" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\lyq\02-myWork\1.decoding\codes\code-theme-decoding_simulation\result\LAQA" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\lyq\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="599826a5-71c9-4cc5-8a1c-f1993e8cef5c" name="更改" comment="" />
+      <created>1731646969066</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731646969066</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/env_decoding.py</url>
+          <line>328</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
