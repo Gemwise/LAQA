@@ -24,7 +24,7 @@ public class FuncThread extends Thread {
     private HashMap<Integer, Float> throughputReport;
     private ArrayList<String> poseACKReport;
     private ArrayList<Float> varQualityReport;
-//    private static List<Float> estThroughputList = new ArrayList<>(); // 创建一个列表来存储estThroughput值
+
     Stats statistics = null;
 
     public FuncThread (String name, Socket sock, String IP, BufferedReader prereader) {
@@ -47,28 +47,7 @@ public class FuncThread extends Thread {
 
         reader = prereader;
     }
- /*   // 函数用于添加estThroughput值到列表中
-    public static void addEstThroughput(float estThroughput) {
-        estThroughputList.add(estThroughput);
-    }
 
-    // 函数用于在程序结束时将estThroughput的值保存到文件中
-    public static void saveEstThroughputToFile() {
-        try {
-            FileWriter fw = new FileWriter("estThroughput.txt");
-            BufferedWriter bw = new BufferedWriter(fw);
-            for (Float value : estThroughputList) {
-                bw.write(String.valueOf(value));
-                bw.newLine();
-            }
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-    /*
-    * @brief：和 user通讯完成后，对通讯时的信息 进行 log保存
-    * */
     private void reportStats () {
 
         System.out.println (Thread.currentThread ().getName () + " start writing the functional report");
@@ -77,11 +56,10 @@ public class FuncThread extends Thread {
         try {
             if (clientAddr.equals (Utils.teacherAddr)) {
                 fileName = Utils.policy + "_teacher_" + clientAddr + ".txt";
-                System.out.println ("estimated prediction probability: " + String.format("%.2f", Utils.estProb));//预测的概率
+                System.out.println ("estimated prediction probability: " + String.format("%.2f", Utils.estProb));
             } else {
                 fileName = Utils.policy + "_student_" + clientAddr + ".txt";
             }
-            //创建目录
             String path = "report";
             File folder = new File (path);
             if (!folder.exists ()) {
@@ -90,18 +68,15 @@ public class FuncThread extends Thread {
                 System.out.print ("Folder created");
             }
 //            System.out.println ("create report directory");
-            //创建文件名
             File file = new File ("./report/" + fileName);
             file.createNewFile ();
             System.out.println ("create ./report/"+ fileName);
-            //写文件内容
             FileWriter fwt = new FileWriter (file);
 //            fwt.write ("slot, allocate quality, display quality, pose, delay, throughput, video size, varQuality\n");
 //            fwt.write ("slot, allocate quality, display quality,delay,varQuality,throughput,pose\n");
             for (int i = 0; i < videoACKReport.size (); i++) {
                 int slot = timeACKReport.get (i);
                 //1. ABR algorithm quality
-                //videoQualitySlot 这里面的 slot 是 service本地统计的
                 int targetQuality = -1;
                 if (statistics.videoQualitySlot.containsKey (slot)) {
                     targetQuality = statistics.videoQualitySlot.get (slot);
@@ -120,7 +95,6 @@ public class FuncThread extends Thread {
                     throughput = throughputReport.get (slot);
                 }
                 //5.videoSize : totalTileSize
-                //videoSizeSlot 这里面的 slot 是 service本地统计的
                 int videoSize = 0;
                 if (statistics.videoSizeSlot.containsKey (slot)) {
                     videoSize = statistics.videoSizeSlot.get (slot);
@@ -131,7 +105,7 @@ public class FuncThread extends Thread {
                 float varQuality = 0;
                 varQuality = varQualityReport.get (i);
                 BigDecimal bd = new BigDecimal(varQuality);
-                bd = bd.setScale(2, RoundingMode.HALF_UP);   //保留2位小数
+                bd = bd.setScale(2, RoundingMode.HALF_UP);
                 varQuality = bd.floatValue();
                 
 //                fwt.write (slot + "," + targetQuality + "," + quality + "," + pose + "," + delay + "," + throughput + "," + videoSize + "," + varQuality + "\n");
@@ -178,9 +152,7 @@ public class FuncThread extends Thread {
                     int slot = Integer.parseInt (tokens[2]);
                     String pose = null;
                     int quality = 0;
-                    //这里是在client那边定义的： send display ACK with videoID -1 to show missed frame
                     if (videoID != -1) {
-                        //根据videoID得出quality
                         quality = Integer.parseInt (Utils.id2pose.get (videoID).split (",")[3]);
                         quality = Utils.qualityMap.get (quality); //convert from CRF to quality
                         float oriX = Float.parseFloat (tokens[3]);
@@ -190,8 +162,6 @@ public class FuncThread extends Thread {
                         pose = posX + " " + posZ + " " + oriX + " " + oriY;
 
                         // double check for students, since they do not know the prediction result
-                        //计算方差是按照 client 实际显示的 quality，
-                        // 这里pos预测错误就直接把 quality = 0
                         if (!clientAddr.equals (Utils.teacherAddr) && Utils.realPoses.containsKey (slot)) {
                             String realPose = Utils.realPoses.get (slot);
                             int result = Utils.getPredResult (pose, realPose,0);
@@ -212,7 +182,7 @@ public class FuncThread extends Thread {
                     poseACKReport.add ("(" + pose + ")");
                     videoACKReport.add (quality);
                     timeACKReport.add (slot);
-                    varQualityReport.add (statistics.varQuality);//统计 quality 方差
+                    varQualityReport.add (statistics.varQuality);
 
                 } else if (ackType == 1) {
                     // packet ACK, refer to a tile is successfully received
@@ -220,14 +190,12 @@ public class FuncThread extends Thread {
                     int slot = Integer.parseInt (tokens[2]);
                     int endTile = Integer.parseInt (tokens[3]);
                     
-                    //frame-tiles都被 client接收完毕
                     if (endTile == 1) {
                         // all tiles in this time slot have been ACked
                         statistics.calDelayEndTime = System.nanoTime ();
-                        //client每个slot下所需tiles实际的传输延迟(pos不同，tile个数不固定)
                         float delay = Float.parseFloat (tokens[4]); //unit: ms
                         BigDecimal bd = new BigDecimal(delay);
-                        bd = bd.setScale(2, RoundingMode.HALF_UP);   //保留2位小数
+                        bd = bd.setScale(2, RoundingMode.HALF_UP);
                         delay = bd.floatValue();
 
                         //polynomia regression to predict delay
@@ -244,20 +212,18 @@ public class FuncThread extends Thread {
                         //To use the Exponential Moving Average (EMA) algorithm in code to estimate available bandwidth
                         float estThroughput = Float.parseFloat (tokens[5]);
                         BigDecimal bd_estThroughput = new BigDecimal(estThroughput);
-                        bd_estThroughput = bd_estThroughput.setScale(2, RoundingMode.HALF_UP); //保留2位小数
+                        bd_estThroughput = bd_estThroughput.setScale(2, RoundingMode.HALF_UP);
                         estThroughput = bd_estThroughput.floatValue();
                         // throughput estimation
                         if (estThroughput > 0) {
-                            //原来
 //                            statistics.estThroughput = statistics.expFactor * estThroughput  +  (1 - statistics.expFactor) * statistics.estThroughput;
                             //modify
                             statistics.estThroughput = statistics.expFactor * statistics.estThroughput  +  (1 - statistics.expFactor) * estThroughput;
                         }
-                        throughputReport.put (slot, estThroughput);  //log
-//                        System.out.println(Thread.currentThread().getName()+" receive estimated throughput "+estThroughput + " MB/s"); //下载速度
+                        throughputReport.put (slot, estThroughput);
                     }
 
-                    statistics.prevPose.add (videoID); //预测的位置
+                    statistics.prevPose.add (videoID);
                     //System.out.println(Thread.currentThread().getName()+" receive packet ACK of videoID :"+videoID );
                 } else if (ackType == 2) {
                     // video release ACK
@@ -277,7 +243,6 @@ public class FuncThread extends Thread {
         } finally {
             System.out.println ("start try-finally:");
             reportStats ();
-//            saveEstThroughputToFile(); //每个user的 可用带宽估计值
         }
     }
 }

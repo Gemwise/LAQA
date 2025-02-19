@@ -22,23 +22,11 @@ public class TwoApprox implements RateAlgo {
         int[] v_qualities = new int[clientNum];
         String[] IPs = new String[clientNum];
 
-        /*对于每一个连接到服务器的客户端 IP，获取其网络统计信息，
-        并对其 d_qualities 和 v_qualities 质量进行初始化为1
-        */
         int cnt = 0;
         for (String IP : Utils.clientStats.keySet ()) {
             IPs[cnt] = IP;
             Stats statistics = Utils.clientStats.get (IP);
-            bandwidth_clients[cnt] = statistics.estThroughput;   //MEA 估计可用带宽
-
-//            bandwidth_clients[cnt] = (float) Double.POSITIVE_INFINITY; // 初始化为正无穷大
-
-/*            int NUM_SAMPLES = Utils.RATE_LIMIT_GUIDELINES.length ; //有几个阈值
-            int randomIndex = new Random ().nextInt(NUM_SAMPLES); // 随机选择一个索引
-            float rateLimit = Utils.RATE_LIMIT_GUIDELINES[randomIndex]; // 获取对应索引的阈值
-            bandwidth_clients[cnt] = rateLimit;*/
-
-            //start form the lowest quality level
+            bandwidth_clients[cnt] = statistics.estThroughput;
             d_qualities[cnt] = 1;
             v_qualities[cnt] = 1;
             cnt++;
@@ -75,7 +63,7 @@ public class TwoApprox implements RateAlgo {
 
                 float decode_time = 0f;
                 if (trans_time > 0.0) {
-                    //获取不同quality的解码时间
+
                     float decode_time_high = Utils.decodeTimeMap.get (d_qualities[index] + 1);
                     float decode_time_low = Utils.decodeTimeMap.get (d_qualities[index]);
                     decode_time = decode_time_high - decode_time_low;
@@ -84,7 +72,7 @@ public class TwoApprox implements RateAlgo {
                 float old_mean = statistics.aveQuality;
                 float var_portion = Utils.estProb * (Utils.timeSlot - 1) * (float) (Math.pow (d_qualities[index] + 1 - old_mean, 2) - Math.pow (d_qualities[index] - old_mean, 2)) / Utils.timeSlot;
 
-                //计算 QoE value increment
+
                 if (our_method == false) {
                     //baseline  scheme
                    obj_incre[i] = (Utils.estProb - Utils.ALPHA * delay_portion - Utils.BETA * var_portion);
@@ -92,27 +80,21 @@ public class TwoApprox implements RateAlgo {
                     //latency scheme
                     obj_incre[i] = (Utils.estProb - Utils.ALPHA * trans_time - Utils.BETA * var_portion - Utils.GAMMA * decode_time);
                 }
-                //密度贪婪
+
                 density[i] = obj_incre[i] / (rate_high - rate_low);
             }
 
             int max_index = 0;
             float max_value = 0.0f;
             if (our_method_fairnee == true) {
-                /* 新加功能
-                 * fairness: in each quality-level raising iteration, only considering the users in 𝒰′ as candidate users
-                 * for increasing the quality level is to avoid too large gap between different users’ quality levels,
-                 * achieving the fairness among users.
-                 * */
-                // New feature for fairness
+                // fairness
                 List<Integer> u_index_new = getUsersWithQualityWithinLOver2 (d_qualities, u_index, Utils.qualityLevel);
 
                 // Find the user with the highest density among the selected users
                 Pair<Integer, Float> maxDensityPair = findMaxDensityIndex (density, u_index_new);
-                max_index = maxDensityPair.getKey ();   //是 u_index_new 里的索引
+                max_index = maxDensityPair.getKey ();
                 max_value = maxDensityPair.getValue ();
             }else {
-                //or 原作者 ：找到最大的那个 client 的 max_index ，是索引，不是对应的内容。
                  max_index = 0;
                 max_value = Float.MIN_VALUE;
                 for (int i = 0; i < u_index.size (); i++) {
@@ -124,9 +106,9 @@ public class TwoApprox implements RateAlgo {
             }
 
             if (max_value > 0) {
-                //获取最大的 client user index
+
                 int max_user_index = u_index.get (max_index);
-                d_qualities[max_user_index] += 1; //只把最大的client user 的quality +1
+                d_qualities[max_user_index] += 1;
                 float[] cur_rates = new float[clientNum];
                 float total_rate = 0;
                 for (int i = 0; i < clientNum; i++) {
@@ -134,7 +116,7 @@ public class TwoApprox implements RateAlgo {
                     cur_rates[i] = Utils.calBandwidth (indexPos, tiles, quality);  //unit: MB/s
                     total_rate += cur_rates[i];
                 }
-                //当每个条件满足时，会打印出相应的提示信息
+
                 if (cur_rates[max_user_index] >= bandwidth_clients[max_user_index]) {
 //                    System.out.println("density greey:" + "User " + max_user_index + " over bandwidth." + bandwidth_clients[max_user_index]);
                 }
@@ -142,7 +124,6 @@ public class TwoApprox implements RateAlgo {
                     System.out.println("density greey:" + "Total server rate is exceeding the limit !!!!!");
                 }
 
-                //受带宽限制
                 if (cur_rates[max_user_index] >= bandwidth_clients[max_user_index] ||
                         total_rate >= Utils.RATE_LIMIT_SERVER) {
                     d_qualities[max_user_index] -= 1;
@@ -153,7 +134,7 @@ public class TwoApprox implements RateAlgo {
                         u_index.remove (Integer.valueOf (max_user_index));
                 }
 
-            } else { //密度值<0，增益为负，对系统没有共享，停止循还
+            } else {
                 u_index.clear ();
                 System.out.println("density max_value Negative value encountered: " + max_value);
             }
@@ -169,7 +150,6 @@ public class TwoApprox implements RateAlgo {
 
             float[] obj_incre = new float[u_index.size ()];
 
-            //计算 QoE for every user
             for (int i = 0; i < u_index.size (); i++) {
                 int index = u_index.get (i);
                 float rate_low = Utils.calBandwidth (indexPos, tiles, v_qualities[index]);
@@ -181,8 +161,8 @@ public class TwoApprox implements RateAlgo {
 
                 float decode_time = 0f;
                 if (trans_time > 0.0) {
-                    float decode_time_high = Utils.decodeTimeMap.get (v_qualities[index] + 1); //获取不同quality的解码时间
-                    float decode_time_low = Utils.decodeTimeMap.get (v_qualities[index]); //获取不同quality的解码时间
+                    float decode_time_high = Utils.decodeTimeMap.get (v_qualities[index] + 1);
+                    float decode_time_low = Utils.decodeTimeMap.get (v_qualities[index]);
                     decode_time = decode_time_high - decode_time_low;
                 }
 
@@ -201,12 +181,8 @@ public class TwoApprox implements RateAlgo {
             int max_index = 0;
             float max_value = 0.0f;
             if (our_method_fairnee == true) {
-                /* 新加功能
-                 * fairness: in each quality-level raising iteration, only considering the users in 𝒰′ as candidate users
-                 * for increasing the quality level is to avoid too large gap between different users’ quality levels,
-                 * achieving the fairness among users.
-                 * */
-                // New feature for fairness
+
+                //fairness
                 List<Integer> u_index_new = getUsersWithQualityWithinLOver2 (v_qualities, u_index, Utils.qualityLevel);
                 // Find the user with the highest density among the selected users
                 Pair<Integer, Float> maxIncrePair = findMaxDensityIndex (obj_incre, u_index_new);
@@ -214,7 +190,6 @@ public class TwoApprox implements RateAlgo {
                 max_value = maxIncrePair.getValue ();
             }
             else {
-                //or 原作者
                 max_index = 0;
                 max_value = Float.MIN_VALUE;
                 for (int i = 0; i < u_index.size (); i++) {
@@ -239,7 +214,7 @@ public class TwoApprox implements RateAlgo {
                     cur_rates[i] = Utils.calBandwidth (indexPos, tiles, quality);
                     total_rate += cur_rates[i];
                 }
-                //当每个条件满足时，会打印出相应的提示信息
+                
                 if (cur_rates[max_user_index] >= bandwidth_clients[max_user_index]) {
 //                    System.out.println("value greey:" + "User " + max_user_index + " over bandwidth." + bandwidth_clients[max_user_index]);
                 }
@@ -283,23 +258,20 @@ public class TwoApprox implements RateAlgo {
         List<ValueWithIndex> valueWithIndices = new ArrayList<>();
         valueWithIndices.clear();
 
-        //添加 mapping (qualityValue, userIndex)  //存的是u_index里的内容
         for (int userIndex : u_index) {
             float qualityValue = d_qualities[userIndex];
             valueWithIndices.add(new ValueWithIndex(qualityValue, userIndex));
         }
 
-        //找到 quality level 最小的 user
         float minValue = Float.MAX_VALUE;
         int minIndex = -1;
         for (ValueWithIndex vwi : valueWithIndices) {
             if (vwi.getValue() < minValue) {
                 minValue = vwi.getValue();
-                minIndex = vwi.getIndex();  //是内容
+                minIndex = vwi.getIndex();
             }
         }
 
-        //找出 满足quality level 相差在 L/2 的user，把这些组成 new subset,
         List<ValueWithIndex> valuesWithinLOver2 = new ArrayList<>();
         valuesWithinLOver2.clear();
         for (ValueWithIndex vwi : valueWithIndices) {
@@ -310,15 +282,11 @@ public class TwoApprox implements RateAlgo {
         List<Integer> u_index_new = new ArrayList<>();
         u_index_new.clear();
 
-        /*for (ValueWithIndex vwi : valuesWithinLOver2) {
-            int user_index = u_index.indexOf(vwi.getIndex());  //注意：这里有个index 的转换
-            u_index_new.add(user_index);   //存的是u_index的索引
-        }*/
         for (ValueWithIndex vwi : valuesWithinLOver2) {
-            int user_index = vwi.getIndex(); //存的是u_index的内容，就是有哪些user
+            int user_index = vwi.getIndex();
             u_index_new.add(user_index);
         }
-        return u_index_new;   //若没有符合条件的user,这里会是 NULL list，返回的是内容
+        return u_index_new;
     }
 
     // Method to find the index of the maximum density value among a list of indicess subset
@@ -327,15 +295,15 @@ public class TwoApprox implements RateAlgo {
         float maxValue = Float.MIN_VALUE;
 
         for (int i = 0; i < u_index_subset.size(); i++) {
-            int userIndex = u_index_subset.get(i); // 取出 user index 对应的内容, 如 u_index_subset = [2.4.6]
-            float value = density[userIndex];  //取出 user index 对应的density
+            int userIndex = u_index_subset.get(i);
+            float value = density[userIndex];
             if (value > maxValue) {
                 maxValue = value;
                 maxUseIndex = userIndex;
             }
         }
-        //为了和之前的程序统一，这里要返回index，而不是内容。
+
         Integer num = u_index_subset.indexOf(maxUseIndex);
-        return new Pair<>(num, maxValue); //返回：哪一个user,的 value。num 是 u_index_subset里的索引
+        return new Pair<>(num, maxValue); 
     }
 }

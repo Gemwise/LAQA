@@ -35,24 +35,22 @@ public class CacheThread extends Thread{
 		endIndex = getEndIndex;
 		threName = "Cache tiles Thread "+threadID;
 	}
-	/**
-	 * brief:读取图片有效数据，存入到内存中，建立映射关系
-	 * */
+
 synchronized void readTile(int id) {
 		if (Utils.map.containsKey(id)) return;
 		if (!files.containsKey(id)) return;
 		byte[] curFrame = null;
 		File f = files.get(id);
 		try{
-			curFrame = Files.readAllBytes(f.toPath());  //当前帧的内容，即图片有效数据
+			curFrame = Files.readAllBytes(f.toPath());
 		}catch (IOException e) {
 			System.out.println("Main thread: Frame Buffer exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 		if (id != -1) {
-			Utils.map.put(id,curFrame); //建立映射关系(图片id,图片有效数据)
+			Utils.map.put(id,curFrame);
 			if (curFrame != null) {
-				Utils.id2size.put(id, curFrame.length); //建立映射关系(图片id,图片有效数据长度，单位byte)
+				Utils.id2size.put(id, curFrame.length);
 			}
 			readTiles.add(id);
 		}
@@ -70,7 +68,7 @@ synchronized void readTile(int id) {
 			while(videoID < endIndex && videoID < files.size()) {
 				readTile(videoID);
 				long tempPrepTime = System.currentTimeMillis();
-				//每隔1000个tile打印一次
+
 				if ((videoID - index) % 1000 == 0) {
 					System.out.println(threName + " Read tiles from "+index+" to "+videoID +" time used: "+(tempPrepTime - startPrepTime)/1000 + "s");
 				}
@@ -88,7 +86,6 @@ synchronized void readTile(int id) {
 
 		long endPrepTime = System.currentTimeMillis();
 		System.out.println(threName + ":have been read, time used: "+(endPrepTime - startPrepTime)/1000 + "s, current total tile num: "+Utils.map.size());
-		System.out.println ("剩余"+ (Utils.tilesNum - Utils.map.size())+"个tile未读入cache");
 	}
 	
 	void readAllTilesInAPos(String indexPos) {
@@ -182,17 +179,6 @@ synchronized void readTile(int id) {
 	        if (filenum % 1000 == 0) System.out.println("read "+filenum+" files, time used: "+(curTime-startPrepTime)+" ms");
 	        filenum++;
         }
-        // save the id2size table
-        /*File file = new File("./id2size.txt");
-        try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			for(int videoID : Utils.id2size.keySet()) {
-				bw.write(videoID + "," + Utils.id2size.get(videoID) + "\n");
-			}
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
         
         if(!Utils.notFoundFrames.isEmpty()) {
         	for(int i=0;i<Utils.notFoundFrames.size();i++) {

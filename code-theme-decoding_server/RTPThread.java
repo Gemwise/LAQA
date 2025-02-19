@@ -221,7 +221,7 @@ public class RTPThread extends Thread {
 
     public static void concatenateVideos (ArrayList<Integer> videoIds, int customCRF, String outputPath) {
         try {
-            // 对videoIds进行排序，以便它们根据tileID排序
+
             Collections.sort (videoIds);
 
             StringBuilder cmd = new StringBuilder ("ffmpeg ");
@@ -234,7 +234,7 @@ public class RTPThread extends Thread {
             cmd.append ("-c:v libx264 -crf ").append (customCRF).append (" ");
             cmd.append ("\"").append (outputPath).append ("\"");
             File file = new File (outputPath);
-            // 执行FFmpeg命令
+
             Process p = Runtime.getRuntime ().exec (cmd.toString ());
             //System.out.println (outputPath+"已合成");
             p.waitFor ();
@@ -246,36 +246,34 @@ public class RTPThread extends Thread {
 
     public static void concatenateVideos2 (ArrayList<Integer> videoIds, int customCRF, String outputPath) {
         try {
-            // 对videoIds进行排序，以便它们根据tileID排序
+
             Collections.sort (videoIds);
 
             StringBuilder cmd = new StringBuilder ("ffmpeg ");
 
             int inputCount = videoIds.size ();
 
-            // 添加用户提供的视频
             for (int id : videoIds) {
-                String path = Utils.id2addr.get (id); // 确保你有一个Utils.id2addr映射
+                String path = Utils.id2addr.get (id);
                 File file = new File (path);
-                if (!file.exists ()) System.out.println (path + "路径不存在");
+                if (!file.exists ()) System.out.println (path + "not found");
                 cmd.append ("-i \"").append (path).append ("\" ");
             }
 
-            // 如果输入的视频数量小于4，则添加全黑的视频
             for (int i = inputCount; i < 4; i++) {
                 cmd.append ("-f lavfi -i color=s=960x1440:d=0.04:c=black ");
             }
 
-            cmd.append ("-filter_complex \"hstack=inputs=4\" "); // 总是合并4个输入
+            cmd.append ("-filter_complex \"hstack=inputs=4\" ");
             cmd.append ("-c:v libx264 -crf ").append (customCRF).append (" ");
             cmd.append ("\"").append (outputPath).append ("\"");
 
-            // 执行FFmpeg命令
+
             Process p = Runtime.getRuntime ().exec (cmd.toString ());
             final InputStream is1 = p.getInputStream ();
-            //获取进城的错误流
+
             final InputStream is2 = p.getErrorStream ();
-            //启动两个线程，一个线程负责读标准输出流，另一个负责读标准错误流
+
             new Thread () {
                 public void run () {
                     BufferedReader br1 = new BufferedReader (new InputStreamReader (is1));
@@ -332,16 +330,14 @@ public class RTPThread extends Thread {
 
     public void writeMergetileToFile (ArrayList<Integer> mergetile, String filePath) {
         try {
-            BufferedWriter writer = new BufferedWriter (new FileWriter (filePath, true)); // 追加模式
-            // 遍历mergetile数组并将内容写入文件
+            BufferedWriter writer = new BufferedWriter (new FileWriter (filePath, true));
+
             for (Integer tile : mergetile) {
                 writer.write (tile + " ");
             }
 
-            // 写入换行符
             writer.newLine ();
 
-            // 关闭文件
             writer.close ();
         } catch (IOException e) {
             e.printStackTrace ();
@@ -355,7 +351,6 @@ public class RTPThread extends Thread {
         for (int i = 0; i < 1; i++) {
             // send the tiles corresponding to the predicted pose to the clients
             String line = Utils.predPos[i];
-            //System.out.println (line+"已经被获取");
             // start time to calculate the delay
             statistics.calDelayStartTime = System.nanoTime ();
             int totalTileSize = 0;
@@ -365,65 +360,12 @@ public class RTPThread extends Thread {
             // the quality is determined by the rate control algorithm, convert from quality
             // level to CRF
             quality = Utils.getCRF (statistics.curQuality);
-            /* 1080P: {15, 19, 23, 27, 31, 35};
-            *  2K: {15,17,18,22,26,31,35,39};
-            *  4K: {15,17,19,21,23,27,32,37,41,45};
-            * @NOTE: Utils.getPredResult FUNCTION 里也需注意
-            * */
-//          quality = 35; //固定质量等级，可用于测试解码时间 和 传输时间,
 
             String indexPos = Utils.getPosIndex (line); //pos
             float[] ori = Utils.getOri (line); //ori
             String coor = "(" + (int) Utils.calAngle (ori[0]) + "," + (int) Utils.calAngle (ori[1]) + "," + 0 + ")";
-            //System.out.println (coor+"已经被接收");
-            ArrayList<Integer> tiles = Utils.predTileTable.get (coor);//根据 FOV获取对应 tiles
-            //ArrayList<Integer> mergetile=new ArrayList<> ();
-            
-/*          //wk add
-            for (Integer tile : tiles) {
-                int videoID = Utils.getVideoID (indexPos, tile, quality);
-                if (videoID == -1) {
-                    System.out.println (Thread.currentThread ().getName () + " Cannot find the video: " + indexPos + ","
-                            + tile + "," + quality);
-                    continue;
-                }
-                mergetile.add(videoID);
-            }
 
-            Collections.sort(mergetile);
-            String writepath="E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\vedio.txt";
-            writeMergetileToFile(mergetile,writepath);
-            System.out.println();  // 换行
-            String path="E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\photos\\"+ indexPos+"tile"+quality+".264";
-            concatenateVideos2(mergetile,quality,path);*/
-
-            for (int tile_id : tiles) {
-
-                int endTile = 0;
-                //判断是否是最后的 tile,因为 frame，根据fov不同， 可能由多个tiles组成的
-                if (tiles.indexOf (tile_id) == tiles.size () - 1) {
-                    endTile = 1;
-                }
-                // tempSendTiles.add(indexPos+tile_id);
-                // send empty packet with only header when the tile has already been transmitted
-                int videoID = Utils.getVideoID (indexPos, tile_id, quality);
-                if (videoID == -1) {
-                    System.out.println (Thread.currentThread ().getName () + " Cannot find the pose: " + indexPos + ","
-                            + tile_id + "," + quality);
-                    continue;
-                }
-                int tileLen = sendFrame (videoID, endTile, ori);
-                //System.out.println (videoID+"已经被读取");
-                totalTileSize += tileLen;
-            }
-
-            // add total tile size to statistics
-            statistics.videoSendTime.put (slot, statistics.calDelayStartTime);
-            statistics.videoSizeSlot.put (slot, totalTileSize);
-            statistics.videoQualitySlot.put (slot, Utils.qualityMap.get (quality));
-            lastSendTime = curTime;
-            lastSendPose = line;
-            lastQuality = quality;
+            ArrayList<Integer> tiles = Utils.predTileTable.get (coor);
         }
     }
 

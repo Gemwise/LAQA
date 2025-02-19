@@ -26,7 +26,7 @@ public class Utils {
     public static boolean netEndFlag = false; // triggered by the teacher's last trace
     public static float granular = 5f;
     public static int traceSendInterval = 3;
-    public static int tilesNum = 0;        //记录要读入内存中的tiles的数量
+    public static int tilesNum = 0;
 
     //1080p --- quality
     public final static int qualityLevel = 6;
@@ -41,8 +41,7 @@ public class Utils {
         put (31, 2);
         put (35, 1);
     }};
-    //不同 quality下的解码时间  <quality,decodeTime> 映射
-    //quality 增加，随之 解码时间增加
+
     public final static HashMap<Integer, Float> decodeTimeMap = new HashMap<> () {{
         put (6,16.75F);
         put (5,17.43F);
@@ -66,7 +65,7 @@ public final static HashMap<Integer, Integer> qualityMap = new HashMap<> () {{
     put (35, 2);
     put (39, 1);
 }};
-//不同 quality下的解码时间  <quality,decodeTime>
+
     public final static HashMap<Integer, Float> decodeTimeMap = new HashMap<> () {{
         put (8,16.49F);
         put (7,16.88F);
@@ -96,7 +95,7 @@ public final static HashMap<Integer, Integer> qualityMap = new HashMap<> () {{
     put (41, 2);
     put (45, 1);
 }};
-    //不同 quality下的解码时间  <quality,decodeTime>
+
     public final static HashMap<Integer, Float> decodeTimeMap = new HashMap<> () {{
         put (10, 16.72F);
         put (9,16.76F);
@@ -135,14 +134,13 @@ public final static HashMap<Integer, Integer> qualityMap = new HashMap<> () {{
 //    public static float RATE_LIMIT_SERVER = Float.POSITIVE_INFINITY;
     public final static int[] RATE_LIMIT_GUIDELINES = {40,45,50,55,60};   //原作unit: Mbps
 
-    // 定义枚举类型来表示不同的算法
     public enum Algorithm {
         Firefly,
         TwoApprox,
         PAVQ,
         LAQA_FairnessCom
     }
-    // 使用枚举类型的变量来存储当前策略
+
     public static Algorithm policy = Algorithm.LAQA_FairnessCom;
 
     // given the throughput limitation
@@ -157,17 +155,16 @@ public final static HashMap<Integer, Integer> qualityMap = new HashMap<> () {{
     final static boolean our_method = true;
     final static boolean our_method_fairnee = true;
     
-    // 静态IP地址已经设置好
-    public final static HashMap<String, Boolean> clientComputationMap = new HashMap<>(){{
-        // 初始化映射表，将IP地址与计算能力关联 (true 表示强, false 表示弱)
-        put("192.168.50.135", false);  // bao 2, loc 1
-        put("192.168.50.164", false);  // ma, loc 2
-        put("192.168.50.250", false);  // oppo, loc 3
 
-        put("192.168.50.134", true);  // pico 1, loc 1
-        put("192.168.50.42", true);   // pico 2, loc 2
-        put("192.168.50.181", true);  // pico 3, loc 3
-        // ... 对其他客户端进行类似操作
+    public final static HashMap<String, Boolean> clientComputationMap = new HashMap<>(){{
+
+        put("192.168.50.135", false);
+        put("192.168.50.164", false);
+        put("192.168.50.250", false);
+
+        put("192.168.50.134", true);
+        put("192.168.50.42", true);
+        put("192.168.50.181", true);
 
     }};
     // probability estimation
@@ -197,17 +194,12 @@ public final static HashMap<Integer, Integer> qualityMap = new HashMap<> () {{
         return Utils.availQuality[Utils.qualityLevel - qualityLevel];
     }
 
-    /*
-    @brief :预测的准确性，对比的是 根据 t ,pos里对应的tiles 包含的 ID，
-    进行顺序的比较 ，所以ID顺序也要对
-    * */
+
     public static int getPredResult (String predPose, String realPose, int flag) {
 
-        int result = 1; //初始化为:预测成功
-
-       /* 只是为了 通过 pos,tile,quality 查询 VideoID，对 quality不做数值上的判断；
-        但是得保证自己切片出来的 tiles文件里 得有数值为 quality item */
-        int quality = 15; //可以任意值
+        int result = 1;
+        
+        int quality = 15;
         // get requested tiles use real pose
         ArrayList<Integer> requestTiles = new ArrayList<> ();
         String indexPos = Utils.getPosIndex (realPose);  // pos,

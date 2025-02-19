@@ -125,9 +125,9 @@ public class JavaServer {
              */
             while ((st = br.readLine ()) != null) {
 
-                if (cnt % 2 == 0) {   //奇数行,坐标信息    (14,-58,0)
+                if (cnt % 2 == 0) {
                     coor = st;
-                } else {  //偶数行：tiles 信息   0.0,1.0,2.0
+                } else {
                     ArrayList<Integer> tiles = new ArrayList<> ();
                     String[] strTiles = st.split (",");
                     for (int i = 0; i < strTiles.length; i++) {
@@ -175,15 +175,14 @@ public class JavaServer {
 
             String line;
             while ((line = br.readLine ()) != null) {
-                // 分割每一行并提取第一个数字（视频ID）
+
                 String[] parts = line.split (" ");
                 if (parts.length > 0) {
                     int videoID = Integer.parseInt (parts[0]);
 
-                    // 使用HashMap获取对应的视频路径
                     String videoPath = videoIdToPathMap.get (videoID);
                     if (videoPath != null) {
-                        // 从视频路径中提取位置信息
+
                         String position = extractPosition (videoPath);
                         if (position != null) {
                             bw.write (position);
@@ -215,36 +214,17 @@ public class JavaServer {
         final int MovePort = 8848;
         final int FuncPort = 8080;
         final int RTSPPort = 8088;
-        //String filePath = "E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\vedio.txt"; // 替换为实际的文件路径
-        //String outputfilepath="E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\vedioturn.txt";
-        //List<ArrayList<Integer>> dataArray = readDataFromFile(filePath);
   
         long startTime = System.currentTimeMillis ();
         Utils.predTileTable = readTileTable ("E:\\lyq\\02-myWork\\1.decoding\\codes\\code-theme-decoding_server\\tile_table_1row_4col_120_150.txt");
         Utils.reqTileTable = readTileTable ("E:\\lyq\\02-myWork\\1.decoding\\codes\\code-theme-decoding_server\\tile_table_1row_4col_90_100.txt");
-//        readIDTable ("E:\\lhy\\proj\\process\\allneed\\id2pose_4k_264.txt", Utils.id2pose, Utils.pose2id);
-//        readIDTable("E:\\lhy\\proj\\process\\allneed\\id2pose_2k_264.txt",Utils.id2pose,Utils.pose2id);
         readIDTable("E:\\lhy\\proj\\process\\allneed\\id2pose_1080p_264.txt",Utils.id2pose,Utils.pose2id);
-
-        // Utils.id2addr=buildVideoIdToPathMap("E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\tiles264");
-
-        /*ArrayList<Integer> mergetile=new ArrayList<> ();
-        String path="E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\photos\\"+ "(0,0)"+"tile"+21+".264";
-        String path2="E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\photos\\"+ "(0,0)"+"tile"+25+".264";
-        mergetile.add (0);
-        mergetile.add (8);
-        mergetile.add(16);
-        //mergetile.add(24);
-        RTPThread.concatenateVideos2(mergetile,21,path);
-        //RTPThread.concatenateVideos (mergetile,25,path2);*/
         Utils.tilesNum = Utils.id2pose.size ();
         int gap = 4000;
         int cachethreadNum = Utils.tilesNum / gap;
         System.out.println ("The total CacheThreads=" + cachethreadNum);
         for (int i = 0; i <= cachethreadNum; i++) {
             new CacheThread("E:\\lhy\\proj\\process\\allneed\\sim_1080p_all_6\\tiles264",i*gap,(i+1)*gap,i).start();
-//            new CacheThread("E:\\lhy\\proj\\process\\allneed\\sim_2k_all_8\\tiles264",i*gap,(i+1)*gap,i).start();
-//            new CacheThread ("E:\\lhy\\proj\\process\\allneed\\sim_4k_all_10\\tiles264", i * gap, (i + 1) * gap, i).start ();
         }
         long prepEndTime = System.currentTimeMillis ();
         System.out.println ("Main thread: preparation done, time used: " + (prepEndTime - startTime) + " ms");

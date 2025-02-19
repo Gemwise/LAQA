@@ -70,7 +70,7 @@ public class PredictThread extends Thread {
 //                System.out.println ("current slot: " + (Utils.timeSlot + 1));
  
                 Utils.curPos = line;
-                //判断预测的pos的准确率  ，lastPose 是预测出的pos
+
                 if (lastPose != null) {
                     int result = Utils.getPredResult (lastPose, Utils.curPos, 1);
                     Utils.estProb = (result + Utils.timeSlot * Utils.estProb) / (Utils.timeSlot + 1);
@@ -89,7 +89,7 @@ public class PredictThread extends Thread {
                 double oriY = orientations[1];
                 double[] predOriYs = lrWrapOriY.step (oriY);
 
-                String[] predLines = new String[predWind]; //预测窗口 = 1,只下一秒
+                String[] predLines = new String[predWind];
                 for (int i = 0; i < predWind; i++) {
                     double predPosX = predPosXs[i];
                     double predPosZ = predPosZs[i];
@@ -106,7 +106,7 @@ public class PredictThread extends Thread {
                 }
 
                 Utils.predPos = predLines;
-                lastPose = predLines[0];  //当前 t下预测的 pose
+                lastPose = predLines[0];
                 
                 algo.allocate (); //policy rate control
 
