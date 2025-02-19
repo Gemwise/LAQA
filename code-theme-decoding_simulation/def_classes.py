@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 26 20:42:35 2021
 
-@author: chenj
-"""
 
 import config
 import sklearn

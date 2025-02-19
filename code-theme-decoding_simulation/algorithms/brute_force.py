@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jun 16 15:24:41 2021
 
-@author: chenj
-"""
 
 from utils import cal_bandwidth, cal_delay_without_noise
 import numpy as np

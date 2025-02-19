@@ -12,11 +12,11 @@ import numpy as np
 # parameter for AR model
 PRED_WIND = 20
 DIM = 3
-# 标志位 做对比实验
+
 FFMPEG = '265'
 DECODE = True
-DELAY_PRED = True  # 传输延迟预测
-SAFETY_MARGIN = 0.9  # 网络安全盈余
+DELAY_PRED = True
+SAFETY_MARGIN = 0.9
 
 CLIENT_NUM = 15
 
@@ -28,16 +28,7 @@ TARGET_FPS = 60
 TIME_INTERVAL = int(1000 / TARGET_FPS) - 1
 T = int(1e4)
 PKT_SIZE = 1400
-'''
-Mbps 是兆比特每秒（Megabits per second）
-MBps 兆字节每秒（Megabytes per second）
-4K 60fps H.265 约在40Mbps到100Mbps之间,取一个中间值为60Mbps, CLIENT_NUM = 15
-60 Mbps×15=900 Mbps
-比特（bit）和字节（byte）之间的关系是8比特等于1字节:
-将Mbps转换为MBps（兆字节每秒）: 1Mbps = 1/8 MBps
-60 Mbps=60÷8=7.5 MBps
-900 Mbps=900÷8=112.5 MBps
-'''
+
 RATE_LIMIT_CLIENT = [4.51, 5.41, 3.81, 8.01, 3.21]  # unit: MB/s
 RATE_LIMIT_CLIENT_EST = [SAFETY_MARGIN * rate for rate in RATE_LIMIT_CLIENT]
 RATE_LIMIT_SERVER = CLIENT_NUM * 10  # unit: MB/s,  7.5

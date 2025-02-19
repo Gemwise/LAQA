@@ -1,14 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 17 10:19:44 2021
-Add the handler of displaying multiple frames in a time slot
-Change the unit of delay from millisecond to time slot
-Update the threshold method by changing unit
-Optimize the draw figure function 
-
-See the README.txt file for more modifications
-@author: chenj
-"""
 
 import numpy as np
 import random
@@ -32,10 +22,10 @@ import config, utils
 import copy
 import time
 import os
-#os.chdir("D:/Document/科研/di/simulation/")
+
 random_seed = 10
 
-#%% preparation 
+#% preparation
 utils.read_table('tile_table_1row_4col.txt',utils.tile_dict_display)
 utils.read_table('tile_table_1row_4col_120_150.txt',utils.tile_dict_tran)
 # store the prediction results and required tile size
@@ -70,7 +60,7 @@ for i in range(len(pred_traces)-1):
     result = utils.get_pred_result(pred_traces[i], traces[i+1])
     pred_results.append(result)
     for quality in qualities:
-        #size是一个pose的所需所有tile的 大小之和
+
         size = utils.get_total_size_of_pose(pred_traces[i], quality)
         tile_sizes[qualities.index(quality)][i] = size
     
@@ -101,7 +91,6 @@ if os.path.exists(lte_root_dir):
 trace_files_indexes = np.random.choice(len(lte_trace_candidate),lte_num)            
 lte_trace_files = np.array(lte_trace_candidate)[trace_files_indexes]
 
-#开始选择取出对应文件
 trace_files = []
 
 # trace_files.extend(fcc_trace_files.tolist())
@@ -111,8 +100,7 @@ trace_files.extend(lte_trace_files.tolist())
 
 split_traces_indexes = np.random.choice(np.arange(len(trace_files)),size=(config.TOTAL_TRACE_NUM,config.CLIENT_NUM),replace=False)
 trace_files = np.array(trace_files)[split_traces_indexes]
-#trace files 是一个  TraceNum * ClientNum 的矩阵，每一个元素都是一个文件，前者是循环多少轮 后者是 每轮的人数
-#%%
+
 policies = [2,4,9,13]
 mean_qualities_policies = [[] for i in range(len(policies))]
 mean_delays_policies = [[] for i in range(len(policies))]
@@ -165,11 +153,11 @@ for k in range(config.TOTAL_TRACE_NUM):
 
         start_time = time.time()
 
-        qualities = [3 for i in range(config.CLIENT_NUM)] # initially, all qualities is 3
-        lru_index = [i for i in range(config.CLIENT_NUM)] # 没有使用
+        qualities = [3 for i in range(config.CLIENT_NUM)]
+        lru_index = [i for i in range(config.CLIENT_NUM)]
         users = [User(i,display_policy) for i in range(config.CLIENT_NUM)]
-        min_delays = np.zeros(int(config.T)) # record the minimal delay of all users at each time slot 没有使用
-        all_tiles = [] #没有使用
+        min_delays = np.zeros(int(config.T))
+        all_tiles = []
         
         if policy == 0:
             # constant qualities
@@ -273,7 +261,7 @@ for k in range(config.TOTAL_TRACE_NUM):
         policy_cnt += 1
 
 
-#%% draw figures
+#draw figures
 
 def cdf(x, label, plot=True, *args, **kwargs):
     x, y = sorted(x), np.arange(len(x)) / len(x)

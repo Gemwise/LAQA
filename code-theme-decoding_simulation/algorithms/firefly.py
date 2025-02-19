@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Apr 25 16:33:08 2021
 
-@author: chenj
-"""
 
 import config
 from utils import cal_bandwidth, lru_update

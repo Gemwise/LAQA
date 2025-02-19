@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 26 20:26:16 2021
 
-@author: chenj
-"""
 
 from utils import cal_bandwidth
 import config

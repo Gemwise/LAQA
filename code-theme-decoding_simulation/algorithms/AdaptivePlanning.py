@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Friday April 7 15点22分 2023
 
-@author: HongY
-"""
 
 from utils import cal_bandwidth, cal_delay_without_noise
 import numpy as np

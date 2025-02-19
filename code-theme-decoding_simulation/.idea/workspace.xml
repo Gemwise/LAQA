@@ -17,6 +17,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 3
@@ -30,30 +33,31 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.QoE.executor": "Run",
-    "Python.Quality.executor": "Run",
-    "Python.config.executor": "Run",
-    "Python.delay.executor": "Run",
-    "Python.env.executor": "Run",
-    "Python.env_decoding.executor": "Run",
-    "Python.env_lightweight.executor": "Run",
-    "Python.env_produce.executor": "Run",
-    "Python.env_weight.executor": "Run",
-    "Python.laqa_QoE.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.outlier.executor": "Run",
-    "Python.plot-golay.executor": "Run",
-    "Python.plt-stepreward.executor": "Run",
-    "Python.read_metric_file.executor": "Run",
-    "Python.stepreward.executor": "Run",
-    "Python.var.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "E:/lyq/02-myWork/1.decoding/codes/code-theme-decoding_simulation/draw/cdf/laqa",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.QoE.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Quality.executor&quot;: &quot;Run&quot;,
+    &quot;Python.config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delay.executor&quot;: &quot;Run&quot;,
+    &quot;Python.env.executor&quot;: &quot;Run&quot;,
+    &quot;Python.env_decoding.executor&quot;: &quot;Run&quot;,
+    &quot;Python.env_lightweight.executor&quot;: &quot;Run&quot;,
+    &quot;Python.env_produce.executor&quot;: &quot;Run&quot;,
+    &quot;Python.env_weight.executor&quot;: &quot;Run&quot;,
+    &quot;Python.laqa_QoE.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.outlier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot-golay.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plt-stepreward.executor&quot;: &quot;Run&quot;,
+    &quot;Python.read_metric_file.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stepreward.executor&quot;: &quot;Run&quot;,
+    &quot;Python.var.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/lyq/02-myWork/1.decoding/codes/code-theme-decoding_simulation/draw/cdf/laqa&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\lyq\02-myWork\1.decoding\codes\code-theme-decoding_simulation\draw\cdf\laqa" />
@@ -89,9 +93,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/env_decoding.py</url>
-          <line>328</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/lr_model.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/algorithms/rl_ctr_ddpg.py</url>
+          <line>67</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,12 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@File    : code-theme-decoding_simulation
-@Name    : main.py
-@Author  : lyq
-@Date    : 2024/11/15 上午11:51
-@Envi    : PyCharm
-@Description:  文件描述
-"""
 
 import numpy as np
 import random
@@ -23,9 +14,6 @@ import utils
 import time
 import os
 import psutil
-
-os.chdir("E:/lyq/02-myWork/1.decoding/codes/code-theme-decoding_simulation")
-
 
 def cdf(x, label, plot=True, *args, **kwargs):
     """
@@ -45,7 +33,6 @@ def cdf(x, label, plot=True, *args, **kwargs):
     return plt.plot(x, y, label=label, *args, **kwargs) if plot else (x, y)  # 根据plot参数决定是绘制图形还是返回x和y值
 
 
-# 将 QoE_epispde_set 列表中的数值写入 reward.txt 文件
 def write_rewards_to_file(rewards, file_path):
     # 检查文件是否存在，如果不存在则创建
     if not os.path.exists(file_path):
@@ -204,7 +191,6 @@ if os.path.exists(lte_root_dir):
 trace_files_indexes = np.random.choice(len(lte_trace_candidate), lte_num)
 lte_trace_files = np.array(lte_trace_candidate)[trace_files_indexes]
 
-#开始选择取出对应文件
 trace_files = []
 
 trace_files.extend(fcc_trace_files.tolist())
@@ -236,14 +222,12 @@ utils.init_decode_latency_rate()
 print(f"CLIENT_NUM: {config.CLIENT_NUM}")
 
 do_time = time.time()
-QoE_epispde_set = []  # 存储每个 episode 的 reward
-# 文件路径
+QoE_epispde_set = []
 file_name_esisode = 'episode_reward.txt'
-# QoE_step_set = []  # 存储每个 step 的 reward
 random_indice = random.sample(range(config.TOTAL_TRACE_NUM), 1)[0]
 net_traces = load_network_traces(trace_files, config.TIME_INTERVAL, config.T, random_indice)
-NUM_EPISODE = 10  # TODO  轮次没有确定，参考文献是10000
-NUM_STEP = config.T-9000  # TODO  步长没有确定，参考文献是100
+NUM_EPISODE = 10  # TODO
+NUM_STEP = config.T-9000  # TODO
 STEP_INTERVAL = 10
 labels = []  # algorithm name
 for episode in range(NUM_EPISODE):
@@ -315,12 +299,10 @@ for episode in range(NUM_EPISODE):
             agent = RL_CTRL(NUM_EPISODE, NUM_STEP, STEP_INTERVAL)
         labels.append(agent.label)
 
-        # 环境初始化
         initial_state = agent.reset()
-        # print(f"Initial state vector shape: {initial_state.shape}")  # 输出状态向量的形状
-        # print(f"Initial state vector: {initial_state}")  # 输出状态向量内容
+
         episode_reward = 0
-        # QoE_step_set = [] # TODO 可以根据需要调整保存的内容
+        # QoE_step_set = [] # TODO
         qualities = [config.QUALITY_BASE for i in range(config.CLIENT_NUM)]
         users = [User(i, 1) for i in range(config.CLIENT_NUM)]
 
@@ -332,7 +314,7 @@ for episode in range(NUM_EPISODE):
             # modify the client rate limit based on the network trace
             config.SLOT_SIZE = tile_sizes[:, step]
             # config.RATE_LIMIT_CLIENT = list(net_traces[:, step])
-            config.RATE_LIMIT_CLIENT = [2 * rate for rate in net_traces[:, step]]  # 4K 数据集中带宽放大
+            config.RATE_LIMIT_CLIENT = [2 * rate for rate in net_traces[:, step]]
             config.RATE_LIMIT_CLIENT_EST = [1 * rate for rate in config.RATE_LIMIT_CLIENT]
 
             for i in range(config.CLIENT_NUM):
@@ -349,7 +331,6 @@ for episode in range(NUM_EPISODE):
                 print(f"all client total rate {total_bandwidth_current_qualities} MB/s exceeds server limit {config.RATE_LIMIT_SERVER}")
             '''
 
-            # 执行动作
             delay = [users[i].next_delay[qualities[i]] for i in range(config.CLIENT_NUM)]
 
             cur_time = int(step * config.TIME_INTERVAL)
@@ -362,11 +343,10 @@ for episode in range(NUM_EPISODE):
                 users[i].update(cur_time, frame)
 
             next_state, reward, done = agent.step(action, users)
-            # 将经验存储到回放池中
+
             agent.ddpg_agent.replay_buffer.add(state, action, reward, next_state, done)
 
             episode_reward += reward
-            # QoE_step_set.append(np.round(reward, 2))
 
             if step % STEP_INTERVAL == 0:
                 agent.ddpg_agent.train()
@@ -384,7 +364,6 @@ for episode in range(NUM_EPISODE):
         print("%d round of policy %s finished, mean reward: %0.3f, round time: %.3f s" % (
             (episode + 1), agent.label, QoE_num_step, end_time - init_time))
 
-        # 写入文件
         write_rewards_to_file(QoE_epispde_set, file_name_esisode)
         print(f"Rewards written to {file_name_esisode} at iteration {episode + 1}")
 
@@ -544,8 +523,6 @@ plt.title(fig_title)
 plt.savefig(fig_title + '.png')
 sio.savemat(title_no_space + '.mat', {title_no_space: mean_metrics_policies})
 
-
-# 将 rewards 写入文件, 从文件中读取 rewards 并绘制图形
 file_name = 'all_rewards.txt'
 fig_name = 'all_rewards'
 process_rewards(QoE_epispde_set, file_name, fig_name)

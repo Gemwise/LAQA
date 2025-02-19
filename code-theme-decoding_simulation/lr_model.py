@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Jul 25 22:22:09 2021
-
-@author: chenj
-"""
 
 import numpy as np
 from sklearn.linear_model import LinearRegression

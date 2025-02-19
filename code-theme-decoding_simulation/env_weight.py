@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed April 13 10:19:44 2023
-@author: liangH
-"""
+
 import csv
 import pickle
 
@@ -27,18 +24,9 @@ import time
 import os
 from tqdm import tqdm
 
-os.chdir("E:/lyq/02-myWork/1.decoding/codes/code-theme-decoding_simulation")
-
 
 def save_data(policies, data_dict, base_filename, file_type='txt'):
-    """
-    保存数据到文件，支持多种文件类型。
 
-    :param policies: 策略列表
-    :param data_dict: 数据字典，键是数据名称，值是数据列表
-    :param base_filename: 文件名的基础部分
-    :param file_type: 文件类型，支持 'txt', 'csv', 'pkl'
-    """
     for policy in policies:
         for data_name, data_list in data_dict.items():
             filename = f'{base_filename}_{policy}_{data_name}.{file_type}'
@@ -115,7 +103,6 @@ if os.path.exists(lte_root_dir):
 trace_files_indexes = np.random.choice(len(lte_trace_candidate), lte_num)
 lte_trace_files = np.array(lte_trace_candidate)[trace_files_indexes]
 
-#开始选择取出对应文件
 trace_files = []
 
 trace_files.extend(fcc_trace_files.tolist())
@@ -145,7 +132,6 @@ init_time = time.time()
 # add for decode time init
 utils.init_decode_latency_rate()
 
-# 外层循环
 # for k in range(config.TOTAL_TRACE_NUM):
 
 granularity_10 = config.TOTAL_TRACE_NUM - 90
@@ -154,12 +140,12 @@ granularity_50 = config.TOTAL_TRACE_NUM - 50
 granularity_100 = config.TOTAL_TRACE_NUM - 0
 
 granularity = granularity_100
-# gamma范围和粒度
+
 start = 0.01
 stop = 1.0
 decimal_places = 4
 gamma_range = np.round(np.linspace(start, stop, granularity), decimal_places)  # variance gama; trans alpf
-# 改为进度条模式
+
 for k in tqdm(range(granularity), desc="Round Processing", unit=" round", leave=True):
     # for k in range(1):
     config.GAMMA = np.round(gamma_range[k], decimal_places)
@@ -168,8 +154,8 @@ for k in tqdm(range(granularity), desc="Round Processing", unit=" round", leave=
     labels = []
     # prepare the network trace for each user in this round
     net_traces = []
-    # for trace_file in trace_files[k]:  # 2dim (100,15)
-    for trace_file in trace_files[1]:  # 2dim (100,15) 固定就一种
+    # for trace_file in trace_files[k]:
+    for trace_file in trace_files[1]:
         user_trace = []
         with open(trace_file) as f:
             lines = f.readlines()
@@ -191,7 +177,7 @@ for k in tqdm(range(granularity), desc="Round Processing", unit=" round", leave=
 
     policy_cnt = 0
     config.BITRATE_LEVELS = 6  # quality L = 6
-    config.DECODE = True  # 考虑 decoding time
+    config.DECODE = True
     for policy in policies:
 
         if policy == 0:
@@ -302,7 +288,7 @@ for k in tqdm(range(granularity), desc="Round Processing", unit=" round", leave=
         users = [User(i, 1) for i in range(config.CLIENT_NUM)]
 
         # for t in range(int(config.T)):
-        # 改为进度条模式
+
         for t in tqdm(range(config.T - 9500), desc="Processing Data", unit="item", leave=False):
             # prediction result
             pred_result = pred_results[t]
@@ -311,7 +297,7 @@ for k in tqdm(range(granularity), desc="Round Processing", unit=" round", leave=
 
             # modify the client rate limit based on the network trace
             # config.RATE_LIMIT_CLIENT = list(net_traces[:, t])
-            config.RATE_LIMIT_CLIENT = [2 * x for x in net_traces[:, t]]  # 4K 数据集中带宽放大
+            config.RATE_LIMIT_CLIENT = [2 * x for x in net_traces[:, t]]
             config.RATE_LIMIT_CLIENT_EST = [1 * rate for rate in config.RATE_LIMIT_CLIENT]
 
             # predetermine the delay for all clients, all qualities, to be used by following functionalities
@@ -381,15 +367,14 @@ for k in tqdm(range(granularity), desc="Round Processing", unit=" round", leave=
 
         policy_cnt += 1
 
-# 保存到本地
-# 将数据放入字典
+
 data_dict = {
     'mean_metrics_trans': mean_metrics_trans_policies,
     'mean_metrics_decode': mean_metrics_decode_policies,
     'mean_qualities': mean_qualities_policies,
     'mean_metric_Vs': mean_metric_Vs_policies
 }
-# 保存数据到不同类型的文件
+
 save_data(policies, data_dict, 'output', file_type='txt')
 
 

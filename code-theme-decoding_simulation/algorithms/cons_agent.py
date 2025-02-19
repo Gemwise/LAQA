@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 26 20:56:10 2021
 
-@author: chenj
-"""
 
 import config 
 
