@@ -1,11 +1,4 @@
-"""
-@File    : code-theme-decoding_simulation
-@Name    : config1.py
-@Author  : lyq
-@Date    : 2024/11/16 12:38
-@Envi    : PyCharm 
-@Description:  files details
-"""
+
 
 import numpy as np
 

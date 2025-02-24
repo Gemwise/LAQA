@@ -140,11 +140,7 @@ utils.read_table('./tile_table_1row_4col.txt', utils.tile_dict_display)
 utils.read_table('./tile_table_1row_4col_120_150.txt', utils.tile_dict_tran)
 # store the prediction results and required tile size
 utils.read_size_table('./allneed/id2size_1080p_265.txt')
-# utils.read_size_table('./id2size_4k_5m.txt')
 utils.read_ID_table('./allneed/id2pose_1080p_265.txt')
-
-# utils.read_for_10pose("./id2pose_5m_10.txt")
-# utils.read_for_10size("./id2size_4k_5m_10.txt")
 utils.read_for_10pose("./allneed/id2pose_4k_265.txt")
 utils.read_for_10size("./allneed/id2size_4k_265.txt")
 utils.read_for_8pose("./allneed/id2pose_2k_265.txt")
