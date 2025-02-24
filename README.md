@@ -4,7 +4,7 @@ Virtual reality (VR) applications have revolutionized digital interaction by pro
 
 
 
-This project consists of two parts, namely simulation experiments and real machine testing.
+This project consists of two parts, namely simulation experiments and real-world experiment.
 
 - simulation experiment
 
