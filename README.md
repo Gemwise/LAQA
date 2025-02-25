@@ -29,6 +29,14 @@ The architecture comprises an edge and user layer seamlessly connected via wirel
 
 
 
+<figure>
+<div style="text-align: center;">
+ <img 
+  src="image/Edge_VR_layered_architecture.png" 
+  width="90%"
+  height="90%">
+ </div>
+</figure>
 
 # Cite this Work
 
