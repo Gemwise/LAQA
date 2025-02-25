@@ -40,7 +40,7 @@ We select the VR content of virtual museum exploration from [Unity Asset Store ]
 
 #  Specifications of  implementation
 
-We use an edge server with an Intel i7-10700 CPU@2.90GHz, NVIDIA GeForce RTX 3060Ti Graphics Card, 32GB Memory, 8TB disk, and Windows 10 as edge layer. The edge server is a video server for LAQA decisionmaking and is implemented in IntelliJ IDEA with Java language. For the client side, we use six devices, comprising three Huawei smartphones and three Pico 4 HMDs. The CPUs of three Huawei smartphones are the Huawei Kirin 955, Huawei Kirin 810, and Huawei Kirin 970. The CPU of three Pico 4 HMDs is Qualcomm XR2. We have implemented a 360° VR video streaming player APP in Android Studio with JAVA language. We use Android Media Codec to accelerate video decoding, which is usually faster than pure software decoding. We use OpenGL ES for rendering, which allows us to project the equirectangular map to the panoramic view. Wireless transmission is facilitated using an ASUS RT-AX86U wireless router.
+We use an edge server with an Intel i7-10700, CPU 2.90GHz, NVIDIA GeForce RTX 3060Ti Graphics Card, 32GB Memory, 8TB disk, and Windows 10 as edge layer. The edge server is a video server for LAQA decisionmaking and is implemented in IntelliJ IDEA with Java language. For the client side, we use six devices, comprising three Huawei smartphones and three Pico 4 HMDs. The CPUs of three Huawei smartphones are the Huawei Kirin 955, Huawei Kirin 810, and Huawei Kirin 970. The CPU of three Pico 4 HMDs is Qualcomm XR2. We have implemented a 360° VR video streaming player APP in Android Studio with JAVA language. We use Android Media Codec to accelerate video decoding, which is usually faster than pure software decoding. We use OpenGL ES for rendering, which allows us to project the equirectangular map to the panoramic view. Wireless transmission is facilitated using an ASUS RT-AX86U wireless router.
 
 
 
@@ -135,8 +135,13 @@ We use an edge server with an Intel i7-10700 CPU@2.90GHz, NVIDIA GeForce RTX 306
 
 ## decoding_simulation
 
-python
+We adopt a trajectory dataset collected from two large VR scenes among 25 users. The dataset includes motion traces of the users, which can be used to simulate the movements of multiple users. Additionally, the network condition trace data are obtained from real network trace datasets, collected from the [FCC web-get dataset](https://www.fcc.gov/oet/mba/ raw-data-releases)  and the `Gent Mobile dataset for 4G/LTE`. We select half of the data from each network trace dataset to form a simulation trace of 300 seconds. Furthermore, to fulfill the bandwidth demands for 4K video frames, we filter the bandwidth data and establish the client bandwidth from 32 Mbps to 100 Mbps. Meanwhile, the total bandwidth of the WiFi router is set at 57.6 Mbps multiplied by the number of clients, which satisfies the transmission requirements for 4K video frames at 60 FPS. Using these datasets, we simulate different scenarios and evaluate the performance of our scheme under various conditions.
 
+ The [mian.py](main.py) file implements LAQA comparison with the reinforcement learning method "RL-CTRL".
+
+The [env.py](env.py) file implements LAQA comparison with an approach based on combinatorial optimization, "CollabQoE".
+
+The [env_weight.py](env_weight.py ) file implements the comparison for selecting weight parameters in LAQA method.
 
 ## decoding_server
 
