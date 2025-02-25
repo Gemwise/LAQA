@@ -137,11 +137,11 @@ We use an edge server with an Intel i7-10700, CPU 2.90GHz, NVIDIA GeForce RTX 30
 
 We adopt a trajectory dataset collected from two large VR scenes among 25 users. The dataset includes motion traces of the users, which can be used to simulate the movements of multiple users. Additionally, the network condition trace data are obtained from real network trace datasets, collected from the [FCC web-get dataset](https://www.fcc.gov/oet/mba/ raw-data-releases)  and the `Gent Mobile dataset for 4G/LTE`. We select half of the data from each network trace dataset to form a simulation trace of 300 seconds. Furthermore, to fulfill the bandwidth demands for 4K video frames, we filter the bandwidth data and establish the client bandwidth from 32 Mbps to 100 Mbps. Meanwhile, the total bandwidth of the WiFi router is set at 57.6 Mbps multiplied by the number of clients, which satisfies the transmission requirements for 4K video frames at 60 FPS. Using these datasets, we simulate different scenarios and evaluate the performance of our scheme under various conditions.
 
- The [mian.py](main.py) file implements LAQA comparison with the reinforcement learning method "RL-CTRL".
+ The [mian.py](./code-theme-decoding_simulation/main.py) file implements LAQA comparison with the reinforcement learning method "RL-CTRL".
 
-The [env.py](env.py) file implements LAQA comparison with an approach based on combinatorial optimization, "CollabQoE".
+The [env.py](./code-theme-decoding_simulation/env.py) file implements LAQA comparison with an approach based on combinatorial optimization, "CollabQoE".
 
-The [env_weight.py](env_weight.py ) file implements the comparison for selecting weight parameters in LAQA method.
+The [env_weight.py](./code-theme-decoding_simulation/env_weight.py ) file implements the comparison for selecting weight parameters in LAQA method.
 
 ## decoding_server
 
