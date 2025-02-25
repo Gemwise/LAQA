@@ -172,7 +172,7 @@ The [MyGLTexture.java](./code-theme-decoding_client/app/src/main/java/com/exampl
 
 # Cite this Work
 
-This is the open source implementation of our TMC 2025 paper "Enhancing Quality of Experience for Collaborative Virtual Reality with Commodity Mobile Devices". If you use the code in an academic work, please cite:
+This is the open source implementation of our IEEE Transactions on Mobile Computing (TMC) 2025 paper "Enhanced VR Experience with Edge Computing: The Impact of Decoding Latency". If you use the code in an academic work, please cite:
 
 ```basic
 @ARTICLE{10884912,
@@ -185,5 +185,9 @@ This is the open source implementation of our TMC 2025 paper "Enhancing Quality 
 
 ```
 
+# About authors
 
+- [Liang HUANG](https://scholar.google.com/citations?user=NifLoZ4AAAAJ), lianghuang AT zjut.edu.cn
+
+- [Yuqi Li](https://scholar.google.com/citations?user=TDX8arMAAAAJ&hl=en), yuqi li AT zjut.edu.cn
 
