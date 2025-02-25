@@ -143,11 +143,18 @@ The [env.py](./code-theme-decoding_simulation/env.py) file implements LAQA compa
 
 The [env_weight.py](./code-theme-decoding_simulation/env_weight.py ) file implements the comparison for selecting weight parameters in LAQA method.
 
-## decoding_server
+## real-world experiment
 
-Java
+To evaluate the performance of LAQA in real-world situations, we deploy the system to commercial devices.
 
-## decoding_client
+### decoding_server
+
+The [JaverServer.java](./code-theme-decoding_server/JaverServer.java) file is the main entry point of the program. It includes functions such as reading frame tiles, establishing network connections, and communicating with clients.
+
+The [LAQA_FairnessWithCom.java](./code-theme-decoding_server/LAQA_FairnessWithCom.java) file contains the main methods of LAQA, including the performance of QoE (Quality of Experience) and fairness under heterogeneous devices.
+
+
+### decoding_client
 
 Android 
 
