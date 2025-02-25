@@ -38,6 +38,97 @@ We select the VR content of virtual museum exploration from [Unity Asset Store ]
   <img src="assets/workflows.png" width="90%" height="90%" />
 </div>
 
+#  Specifications of  implementation
+
+
+
+
+
+<table><thead>
+  <tr>
+    <th>No.</th>
+    <th>Component</th>
+    <th colspan="2">Specifications</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="2"><br>1</td>
+    <td rowspan="2"><br>Access Point</td>
+    <td>ASUS RT-AX86U</td>
+    <td rowspan="2"><br>IEEE 802.11.ax</td>
+  </tr>
+  <tr>
+    <td>AX5700 Router</td>
+  </tr>
+  <tr>
+    <td rowspan="6"><br><br><br><br><br><br>2</td>
+    <td rowspan="6"><br><br><br><br><br><br>Smartphone * 3</td>
+    <td>Huawei Kirin 955</td>
+    <td rowspan="6"><br><br><br><br><br><br>IEEE 802.11.ac</td>
+  </tr>
+  <tr>
+    <td>Android 8.0</td>
+  </tr>
+  <tr>
+    <td>Huawei Kirin 810</td>
+  </tr>
+  <tr>
+    <td>Harmony OS 3.0</td>
+  </tr>
+  <tr>
+    <td>Huawei Kirin 970</td>
+  </tr>
+  <tr>
+    <td>Harmony OS 3.0</td>
+  </tr>
+  <tr>
+    <td rowspan="3"><br><br>3</td>
+    <td rowspan="3"><br><br>HMD * 3</td>
+    <td>PICO 4 VR Headset</td>
+    <td rowspan="3"><br><br>IEEE 802.11.ax</td>
+  </tr>
+  <tr>
+    <td>Qualcomm XR2</td>
+  </tr>
+  <tr>
+    <td>PICO OS 5.0</td>
+  </tr>
+  <tr>
+    <td rowspan="4"><br><br><br><br>4</td>
+    <td rowspan="4"><br><br><br><br>Edge Service</td>
+    <td colspan="2">Intel i7-10700 CPU@2.90Hz</td>
+  </tr>
+  <tr>
+    <td colspan="2">NVIDIA GeForce RTX 3060Ti</td>
+  </tr>
+  <tr>
+    <td colspan="2">32GB Memory and 8TB disk</td>
+  </tr>
+  <tr>
+    <td colspan="2">Windows 10</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>Android Media Codec</td>
+    <td colspan="2">Hardware-accelerated decoding</td>
+  </tr>
+  <tr>
+    <td>b</td>
+    <td>OpenGL ES</td>
+    <td colspan="2">Reproject the equirectangular map <br>to the panoramic view</td>
+  </tr>
+  <tr>
+    <td>c</td>
+    <td>Unity</td>
+    <td colspan="2">Render all possible tiles of the scene</td>
+  </tr>
+  <tr>
+    <td>d</td>
+    <td>FFmpeg</td>
+    <td colspan="2">Encode tiles with different CRF values</td>
+  </tr>
+</tbody></table>
+
 
 
 # How the Code Works
