@@ -22,7 +22,6 @@ The architecture comprises an edge and user layer seamlessly connected via wirel
 
 <div style="text-align: center;">
   <img src="assets/Edge_VR_layered_architecture.png" width="90%" height="90%" />
-  <figcaption> Architecture of 360° VR video streaming with edge computing.</figcaption>
 </div>
 
 # How the Code Works
