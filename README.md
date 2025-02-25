@@ -156,15 +156,17 @@ The [LAQA_FairnessWithCom.java](./code-theme-decoding_server/LAQA_FairnessWithCo
 
 ### decoding_client
 
+E:\lyq\02-myWork\1.decoding\codes\LAQA\code-theme-decoding_client\app\src\main\java\com\example\vrsystemclient
+
 This program implements an Android video player app with 6DoF upload functionality. 
 
-The [MainActivity.java](./code-theme-decoding_client/MainActivity.java) is the main entry point of the program. 
+The [MainActivity.java](./code-theme-decoding_client/app/src/main/java/com/example/vrsystemclient/MainActivity.java) is the main entry point of the program. 
 
-The [RTPNetwork.java](./code-theme-decoding_client/RTPNetwork.java)  is used to handle network communication with the server and receive frame tiles. 
+The [RTPNetwork.java](./code-theme-decoding_client/app/src/main/java/com/example/vrsystemclient/RTPNetwork.java)  is used to handle network communication with the server and receive frame tiles. 
 
-The [FrameDecoder.java](./code-theme-decoding_client/FrameDecoder.java)  is used to handle network communication with the server and receive frame tiles.  processes the received tiles, such as decoding them. 
+The [FrameDecoder.java](./code-theme-decoding_client/app/src/main/java/com/example/vrsystemclient/FrameDecoder.java)  is used to handle network communication with the server and receive frame tiles.  processes the received tiles, such as decoding them. 
 
-The [MyGLTexture.java](./code-theme-decoding_client/MyGLTexture.java)  is used to stitch the decoded tiles into a complete frame and then display it.
+The [MyGLTexture.java](./code-theme-decoding_client/app/src/main/java/com/example/vrsystemclient/MyGLTexture.java)  is used to stitch the decoded tiles into a complete frame and then display it.
 
 
 
