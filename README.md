@@ -40,7 +40,7 @@ We select the VR content of virtual museum exploration from [Unity Asset Store ]
 
 #  Specifications of  implementation
 
-
+We use an edge server with an Intel i7-10700 CPU@2.90GHz, NVIDIA GeForce RTX 3060Ti Graphics Card, 32GB Memory, 8TB disk, and Windows 10 as edge layer. The edge server is a video server for LAQA decisionmaking and is implemented in IntelliJ IDEA with Java language. For the client side, we use six devices, comprising three Huawei smartphones and three Pico 4 HMDs. The CPUs of three Huawei smartphones are the Huawei Kirin 955, Huawei Kirin 810, and Huawei Kirin 970. The CPU of three Pico 4 HMDs is Qualcomm XR2. We have implemented a 360° VR video streaming player APP in Android Studio with JAVA language. We use Android Media Codec to accelerate video decoding, which is usually faster than pure software decoding. We use OpenGL ES for rendering, which allows us to project the equirectangular map to the panoramic view. Wireless transmission is facilitated using an ASUS RT-AX86U wireless router.
 
 
 
