@@ -22,9 +22,16 @@ The architecture comprises an edge and user layer seamlessly connected via wirel
 
 
 
-<img src="C:\Users\lyq\Desktop\Edge_VR_layered_architecture_3_00.png" style="zoom: 50%;" />
 
 
+<figure>
+<div style="text-align: center;">
+ <img 
+  src="image/Edge_VR_layered_architecture.png" 
+  width="90%"
+  height="90%">
+ </div>
+</figure>
 
 # Cite this Work
 
