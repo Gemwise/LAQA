@@ -20,9 +20,13 @@ This project consists of two parts, namely simulation experiments and real-world
 
 The architecture comprises an edge and user layer seamlessly connected via wireless communication. In the edge layer, the access point is connected to the edge server via an Ethernet cable. All videos cached in the edge server are dissected into frames based on a fixed time interval, and these frames are further partitioned into four rectangular tiles (e.g., Tile 0, Tile 1, Tile 2, and Tile 3). These tiles is encoded into multiple quality levels using FFmpeg . Based on the predicted user viewport and the edge server decision-making process, we select the appropriate number of tiles and the corresponding quality levels for transmission. In the user layer, which encompasses 𝑁 users, we utilize two categories of heterogeneous devices, including smartphones and HMDs. The user layer transmits the trajectory of each user’s six degrees of freedom (6 DoF) to the edge layer. 6 DoF are classified into translational and rotational degrees of freedom. The translational degrees of freedom include movement along the X, Y, and Z axes. The rotational degrees of freedom include rotation around these three axes: pitch, yaw, and roll. we have integrated motion prediction into the algorithm design and streamed the relevant part to present these tiles to the user. In reality, any motion prediction model can be incorporated into our architecture to predict the 6 DoF of each user. Therefore, our system considers multiple tiles and does not limit the transmission to just one tile. After receiving all target tiles, users decode them and then assemble them into a panoramic frame and present them on the device.
 
+<div style="text-align: center;">
+  <img src="assets/Edge_VR_layered_architecture.png" width="90%" height="90%" />
+  <figcaption> Architecture of 360° VR video streaming with edge computing.</figcaption>
+</div>
 
+# How the Code Works
 
-<img src="C:\Users\lyq\Desktop\Edge_VR_layered_architecture_3_00.png" style="zoom: 50%;" />
 
 
 
@@ -40,16 +44,6 @@ This is the open source implementation of our TMC 2025 paper "Enhancing Quality 
   doi={10.1109/TMC.2025.3541741}}
 
 ```
-
-# 
-
-
-
-
-
-# How the Code Works
-
-
 
 
 
