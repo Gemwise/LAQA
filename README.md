@@ -27,16 +27,21 @@ The architecture comprises an edge and user layer seamlessly connected via wirel
 
 # How the Code Works
 
+## decoding_simulation
+
+python
 
 
-<figure>
-<div style="text-align: center;">
- <img 
-  src="image/Edge_VR_layered_architecture.png" 
-  width="90%"
-  height="90%">
- </div>
-</figure>
+## decoding_server
+
+Java
+
+## decoding_client
+
+Android 
+
+
+
 
 # Cite this Work
 
@@ -55,13 +60,3 @@ This is the open source implementation of our TMC 2025 paper "Enhancing Quality 
 
 
 
-# decoding_simulation
-
-python
-
-
-# decoding_server
-Java
-
-# decoding_client
-Android 
