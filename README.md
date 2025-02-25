@@ -24,6 +24,22 @@ The architecture comprises an edge and user layer seamlessly connected via wirel
   <img src="assets/Edge_VR_layered_architecture.png" width="90%" height="90%" />
 </div>
 
+
+
+# Workflows
+
+
+
+We select the VR content of virtual museum exploration from [Unity Asset Store ](https://assetstore.unity.com/packages/3d/environments/urban/qa-office-and-security-room-114109) . In the Unity environment, we divide the entire panoramic scene into a grid world with a granularity of 5 𝑐𝑚 × 5 𝑐𝑚, providing users with smooth translational motion. We use the equirectangular method  and obtain a rectangular representation of the panoramic scene by projecting this cylindrical surface onto a rectangular texture. We split each texture into four tiles. We use FFmpeg to encode every tile in the H.265 format. To meet real-time needs, we pre-render data and encode tiles into different quality levels with different CRF values. In this approach, the overhead associated with rendering and encoding VR content at various quality levels is eliminated by pre-processing the content offline. The server maintains a runtime memory buffer to cache relevant video tiles, optimizing performance by avoiding swapping latency. By predicting different FoV, the server selectively caches only the necessary tiles within that range and adjusts the cache dynamically based on user movement. This enables immediate transmission of requested VR content without incurring rendering, encoding, or buffering latency.
+
+
+
+<div style="text-align: center;">
+  <img src="assets/workflows.png" width="90%" height="90%" />
+</div>
+
+
+
 # How the Code Works
 
 ## decoding_simulation
