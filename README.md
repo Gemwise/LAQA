@@ -156,7 +156,6 @@ The [LAQA_FairnessWithCom.java](./code-theme-decoding_server/LAQA_FairnessWithCo
 
 ### decoding_client
 
-E:\lyq\02-myWork\1.decoding\codes\LAQA\code-theme-decoding_client\app\src\main\java\com\example\vrsystemclient
 
 This program implements an Android video player app with 6DoF upload functionality. 
 
