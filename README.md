@@ -156,7 +156,15 @@ The [LAQA_FairnessWithCom.java](./code-theme-decoding_server/LAQA_FairnessWithCo
 
 ### decoding_client
 
-Android 
+This program implements an Android video player app with 6DoF upload functionality. 
+
+The [MainActivity.java](./code-theme-decoding_client/MainActivity.java) is the main entry point of the program. 
+
+The [RTPNetwork.java](./code-theme-decoding_client/RTPNetwork.java)  is used to handle network communication with the server and receive frame tiles. 
+
+The [FrameDecoder.java](./code-theme-decoding_client/FrameDecoder.java)  is used to handle network communication with the server and receive frame tiles.  processes the received tiles, such as decoding them. 
+
+The [MyGLTexture.java](./code-theme-decoding_client/MyGLTexture.java)  is used to stitch the decoded tiles into a complete frame and then display it.
 
 
 
